@@ -13,6 +13,7 @@ Time to bring in Express Middleware.
 ## Terms
 
 * **Middleware** - an express controller that parses the request, performs a server-side action, and then passes the request to the next controller
+* **`path` module** - a module for creating absolute paths to static assets
 * **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents.
 
 
