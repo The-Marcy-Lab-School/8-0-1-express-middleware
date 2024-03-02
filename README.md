@@ -79,5 +79,3 @@ Feel free to add any additional `app.get` endpoints that your server can handle.
 When you've built your server, visit http://localhost:8080 (or whatever `port` number you chose) and test out your server!
 
 When you're done, push your code to github and [follow these steps to deploy a no-database server application using Render](https://github.com/The-Marcy-Lab-School/render-deployment-instructions).
-
-[Here is an example of a deployed server!](https://github.com/benspector-mls/first-express-server-f23-test)
