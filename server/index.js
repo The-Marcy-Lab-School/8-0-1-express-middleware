@@ -2,8 +2,9 @@ const gifs = require('./gifs.json');
 const express = require('express');
 const path = require('path'); // used to make absolute path to static folder
 
-// __dirname is the directory of this file
-const pathToDistFolder = path.join(__dirname, '..', 'frontend', 'dist');
+// __dirname is the absolute path to the directory containing this file
+// path.join() will construct an absolute path using the path components provided
+const pathToDistFolder = path.join(__dirname, '..', 'language-greeter-react-app', 'dist');
 
 const app = express();
 
