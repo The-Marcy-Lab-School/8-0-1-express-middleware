@@ -1,4 +1,6 @@
-# Server as an API Middleman
+# Express Middleware
+
+In the last lecture, we created a server that could send back HTML in a single file. But what if we wanted to send an entire folder containing our built React application? Time to bring in Express Middleware.
 
 **Table of Contents:**
 - [Terms](#terms)
