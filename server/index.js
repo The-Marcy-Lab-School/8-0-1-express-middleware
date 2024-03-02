@@ -1,4 +1,4 @@
-const data = require('./db/data.js');
+const gifs = require('./gifs.json');
 const express = require('express');
 const path = require('path'); // used to make absolute path to static folder
 
@@ -25,7 +25,7 @@ const logRoutes = (req, res, next) => {
 const serveStatic = express.static(pathToDistFolder);
 
 // "Response" controllers send data to the client
-const serveData = (req, res, next) => res.send(data);
+const serveData = (req, res, next) => res.send(gifs);
 const serveHello = (req, res, next) => res.send('hello');
 
 ////////////////////////

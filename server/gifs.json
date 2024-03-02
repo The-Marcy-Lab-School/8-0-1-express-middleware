@@ -1,4 +1,4 @@
-const data = {
+{
   "data": [
     {
       "type": "gif",
@@ -639,5 +639,3 @@ const data = {
     "offset": 0
   }
 }
-
-module.exports = data;
