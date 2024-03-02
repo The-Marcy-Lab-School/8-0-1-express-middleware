@@ -70,7 +70,7 @@ Now, if you run the server and visit the `host:port`, the server will send you t
 ## Challenge
 
 **Setup:**
-* Create a new GitHub repo on your account called `react-express-static-server` and clone it down.
+* Create a new GitHub repo on your account called `react-express-static-server` with a `gitignore` template set to `Node` and clone it down.
 * In the root of your repo, run the command `npm create vite@latest` and create a React application.
   * Keep the provided counter application. (You can change it up later though).
   * Run `npm run build` to generate the `dist` folder. This is going to be the folder containing the static assets (HTML, CSS, and JS files) that your server will serve.
