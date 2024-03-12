@@ -27,7 +27,10 @@ const serveStatic = express.static(pathToDistFolder);
 
 // "Response" controllers send data to the client
 const serveData = (req, res, next) => res.send(gifs);
-const serveHello = (req, res, next) => res.send('hello');
+const serveHello = (req, res, next) => {
+  const name = req.query.name || "stranger";
+  res.send(`hello ${name}`);
+}
 
 ////////////////////////
 // Routes

@@ -6,29 +6,16 @@ Let's make a static web server!
 
 **Table of Contents:**
 - [Terms](#terms)
-- [Setup](#setup)
 - [Controllers Review](#controllers-review)
 - [Middleware Controllers](#middleware-controllers)
 - [Serving Static Assets](#serving-static-assets)
-- [Challenge](#challenge)
 
 ## Terms
 
 * **Middleware** - an express controller that parses the request, performs a server-side action, and then passes the request to the next controller
 * **`path` module** - a module for creating absolute paths to static assets
+* **`__dirname`** — an environment variable that returns the absolute path of the directory containing the currently executing file.
 * **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents.
-
-## Setup
-
-* Create a new GitHub repo on your account called `react-express-static-server` with a `gitignore` template set to `Node` and a   `README.md` file for notes. Clone it down. 
-* In the root of your repo, run the command `npm create vite@latest` and create a React application.
-  * Keep the provided counter application. (You can change it up later though).
-  * Run `npm run build` to generate the `dist` folder. This is going to be the folder containing the static assets (HTML, CSS, and JS files) that your server will serve.
-* `cd ..` back to the root of your repo. Create a new folder called `server` and `cd` into it.
-  * Run `npm i express`
-  * Run `npm i -g nodemon` (if you haven't already installed `nodemon` globally).
-  * Create an `index.js` file.
-  * Run `nodemon index.js` to run your file. Each change you make will cause the file to re-run. <kbd>Ctrl + C</kbd> to turn off the server.
 
 ## Controllers Review
 
@@ -44,14 +31,20 @@ Remember how the Express app works?
 ```js
 // controller
 const serveHello = (req, res, next) => {
-  res.send('hello');
+  const name = req.query.name || "stranger"
+  res.send(`hello ${name}`);
 }
 
 // endpoint
 app.get('/api/hello', serveHello);
+
+// A GET request to /api/hello?name=ben will send the response "hello ben"
 ```
 * A **controller** is a callback function that parses a request and sends a response. It will be invoked by the `app` when the associated path is hit.
-* This simple controller only uses the `res` value. But what about `req` and `next`?
+* It receives a `req` object which can be used to get data about the request including **query parameters**
+* It receives a `res` object which can be used to send a response.
+
+What about `next`?
 
 ## Middleware Controllers
 
@@ -71,7 +64,8 @@ const logRoutes = (req, res, next) => {
 
 // "response" controller
 const serveHello = (req, res, next) => {
-  res.send('hello');
+  const name = req.query.name || "stranger"
+  res.send(`hello ${name}`);
 }
 
 // invoke `logRoutes` for ALL endpoints
@@ -101,6 +95,7 @@ Our diagram now looks like this:
 > If we simply didn't invoke `next()`, our server would "hang" — the response would never be completed and the client would likely receive a timeout error because the request took too long.
 </details><br>
 
+Middleware can be custom-made like this `logRoutes` middleware controller. However, we can also utilize some of the out-of-the-box middleware controllers provided by Express.
 
 ## Serving Static Assets
 
@@ -128,16 +123,3 @@ app.use(serveStatic);
 * `__dirname` returns the parent directory of the current file.
 
 Now, if you run the server and visit the `host:port`, the server will send you the assets in the provided filepath.
-
-## Challenge
-
-**Task:**
-In `server/index.js`, write a server application using Express with the `logRoutes` middleware and the `serveStatic` middleware
-
-Feel free to add any additional `app.get` endpoints that your server can handle.
-
-When you've built your server, visit http://localhost:8080 (or whatever `port` number you chose) and test out your server!
-
-When you're content with how it works, push your code to github and [follow these steps to deploy a no-database server application using Render](https://github.com/The-Marcy-Lab-School/render-deployment-instructions).
-
-**Bonus Challenge**: Find your first React assignment (the Language Greeter App). Run `npm run build` to generate the `dist` folder. Build a server application to serve that `dist` folder and deploy the server application on Render.
