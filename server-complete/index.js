@@ -4,7 +4,7 @@ const path = require('path'); // used to make absolute path to static folder
 
 // __dirname is the absolute path to the directory containing this file
 // path.join() will construct an absolute path using the path components provided
-const pathToDistFolder = path.join(__dirname, '..', 'language-greeter-react-app', 'dist');
+const pathToDistFolder = path.join(__dirname, '..', 'vite-project', 'dist');
 
 const app = express();
 
