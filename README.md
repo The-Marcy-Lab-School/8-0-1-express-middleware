@@ -9,6 +9,7 @@ Let's make a static web server!
 - [Controllers Review](#controllers-review)
 - [Middleware Controllers](#middleware-controllers)
 - [Serving Static Assets](#serving-static-assets)
+- [Summary](#summary)
 
 ## Terms
 
@@ -51,7 +52,7 @@ What about `next`?
 
 ## Middleware
 
-A "middleware" is a function, similar to a controller, can also parse requests and perform server-side actions.
+A "middleware" is a function, similar to a controller, that can also parse requests and perform server-side actions.
 
 Unlike controllers, middleware **pass the request to the next function in the chain without sending a response to the client.** They sit in the "middle" of the chain of middleware/controllers.
 
@@ -92,12 +93,11 @@ Our diagram now looks like this:
 </details><br>
 
 **<details><summary style="color: purple">Q: What would happen if the `logRoutes` controller DID send a response to the client? What would happen if it didn't invoke `next()`?</summary>**
-> If `logRoutes` did invoke `res.send()`, the `serveHello` controller would NOT be invoked as a response has already been sent. 
-> 
+> If `logRoutes` did invoke `res.send()`, the `serveHello` controller would NOT be invoked as a response has already been sent.
 > If we simply didn't invoke `next()`, our server would "hang" — the response would never be completed and the client would likely receive a timeout error because the request took too long.
 </details><br>
 
-Middleware can be custom-made like this `logRoutes` middleware controller. However, we can also utilize some of the out-of-the-box middleware controllers provided by Express.
+Middleware can be custom-made like this `logRoutes`. However, we can also utilize some of the out-of-the-box middleware controllers provided by Express.
 
 ## Serving Static Assets
 
@@ -105,23 +105,41 @@ One of the most important functions of a server is to provide a client with a fr
 
 That's what static web servers like GitHub Pages do — they store **static assets** (HTML, CSS, and JS files) and then provide a URL where users can access them.
 
-With Express, it is really easy to build your own static web server using the `express.static(filepath)` middleware controller:
+With Express, it is really easy to build your own static web server using the `express.static(filepath)` middleware function:
 
 ```js
-// Construct the path to the static assets folder
+// Import the path module to construct the absolute path to the static assets folder
 const path = require('path');
-const pathToDistFolder = path.join(__dirname, '..', 'path', 'to', 'frontend', 'dist')
 
-// Create the middleware controller for serving static assets
+// Construct the absolute path to the static assets folder using the `path.join()` method
+const pathToDistFolder = path.join(__dirname, '..', 'path', 'to', 'frontend', 'dist');
+
+// Create the middleware function for serving static assets
 const serveStatic = express.static(pathToDistFolder);
 
-// Use the middleware controller
+// Use the middleware function to serve static assets
 app.use(serveStatic);
+
 ```
 
-- `express.static(filepath)` returns a middleware controller that can send the client static assets (HTML, CSS, and JS files) from the provided `filepath`. 
-- The `filepath` should be an absolute filepath.
-- The built-in Node module `path` is often used to create absolute filepaths.
-- `__dirname` returns the parent directory of the current file.
+Explanation:
+
+- The `path.join()` method constructs an absolute file path to the static assets folder, ensuring compatibility across different operating systems.
+- `__dirname` provides the absolute path of the current module's directory.
+- The `express.static()` middleware function serves static assets (such as HTML, CSS, and JS files) from the specified directory.
+- The middleware function `serveStatic` is used with app.use() to enable serving static assets to clients.
 
 Now, if you run the server and visit the `host:port`, the server will send you the assets in the provided filepath.
+
+### Summary
+
+- Middleware: Functions that process incoming HTTP requests and can perform server-side actions before passing control to the next middleware.
+- Static Assets: Unchanging files (e.g., HTML, CSS, JS) served by a web server.
+- Controllers: Callback functions that handle requests by parsing them and sending responses.
+- Middleware Functions: Functions similar to controllers but pass requests to the next middleware without sending a response.
+
+- Serving Static Assets
+  - Use express.static(filepath) middleware to serve static assets.
+  - Construct an absolute file path to the static assets folder using path.join().
+  - Use the __dirname variable to get the current module's directory.
+  - Register the middleware with app.use() to serve static assets to clients.
