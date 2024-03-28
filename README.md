@@ -12,19 +12,21 @@ Let's make a static web server!
 
 ## Terms
 
-* **Middleware** - an express controller that parses the request, performs a server-side action, and then passes the request to the next controller
-* **`path` module** - a module for creating absolute paths to static assets
-* **`__dirname`** — an environment variable that returns the absolute path of the directory containing the currently executing file.
-* **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents.
+- **Middleware** - a function in express that intercepts and processes incoming HTTP requests. It can perform server-side actions such as parsing the request, modifying the response, or executing additional logic before passing control to the next middleware in the chain."
+- **`path` module** - a module for creating absolute paths to static assets
+- **Environment Variable** - a dynamic-named value that can affect the behavior of processes or programs.
+- **`__dirname`** — an environment variable that returns the absolute path of the directory containing the currently executing file.
+- **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents.
 
 ## Controllers Review
 
 Remember how the Express app works?
 
-1. A client sends a **request** to the server
+1. A client sends a **request** to the server.
 1. The server receives the request and **routes** it to the proper **controller** based on the specific **endpoint**.
-1. The controller parses the request and sends a **response**
-1. The client receives the response and renders the data
+1. The controller processes the request, interacts with any necessary data or services, and generates a **response**.
+1. The server sends the response back to the client.
+1. The client receives the response and renders the data or take further actions based on it.
   
 ![](./images/express-diagram-simple.svg)
 
@@ -40,45 +42,45 @@ app.get('/api/hello', serveHello);
 
 // A GET request to /api/hello?name=ben will send the response "hello ben"
 ```
-* A **controller** is a callback function that parses a request and sends a response. It will be invoked by the `app` when the associated path is hit.
-* It receives a `req` object which can be used to get data about the request including **query parameters**
-* It receives a `res` object which can be used to send a response.
+
+- A **controller** is a callback function that parses a request and sends a response. It will be invoked by the `app` when the associated path is hit.
+- It receives a `req` object which can be used to get data about the request which can include **query parameters**.
+- It receives a `res` object which can be used to send a response.
 
 What about `next`?
 
-## Middleware Controllers
+## Middleware
 
-A "middleware" controller is just a type of controller — they parse requests and perform server-side actions. 
+A "middleware" is a function, similar to a controller, can also parse requests and perform server-side actions.
 
-Unlike regular controllers, middleware controllers **pass the request to the next controller without sending a response to the client.** They sit in the "middle" of the chain of controllers.
+Unlike controllers, middleware **pass the request to the next function in the chain without sending a response to the client.** They sit in the "middle" of the chain of middleware/controllers.
 
 For example, this middleware prints out information about the incoming request in a nice format:
 
 ```js
-// "middleware" controller
+// Middleware function for logging route requests
 const logRoutes = (req, res, next) => {
-  const time = (new Date()).toLocaleString();
+  const time = new Date().toLocaleString();
   console.log(`${req.method}: ${req.originalUrl} - ${time}`);
-  next();
+  next(); // Passes the request to the next middleware/controller
 };
 
-// "response" controller
+// Controller function for serving a hello message
 const serveHello = (req, res, next) => {
-  const name = req.query.name || "stranger"
-  res.send(`hello ${name}`);
-}
+  const name = req.query.name || "stranger";
+  res.send(`Hello, ${name}!`);
+};
 
-// invoke `logRoutes` for ALL endpoints
+// Register the logRoutes middleware globally to log all requests
 app.use(logRoutes);
 
-// invoke `serveHello` for /api/hello
+// Register the serveHello controller for the /api/hello route
 app.get('/api/hello', serveHello);
-
 ```
 
-* `app.use` is like `app.get` but for middleware
-* When `app.use` is invoked with just the middleware function, it executes that middleware for ALL routes
-* Notice that the `logRoutes` middleware controller doesn't use the `res` object at all and then invokes `next()` to pass control to the next controller in the chain.
+- `app.use` is like `app.get` but for middleware
+- When `app.use` is invoked with just the middleware function, it executes that middleware for ALL routes
+- Notice that the `logRoutes` middleware controller doesn't use the `res` object at all and then invokes `next()` to pass control to the next controller in the chain.
 
 Our diagram now looks like this:
 
@@ -117,9 +119,9 @@ const serveStatic = express.static(pathToDistFolder);
 app.use(serveStatic);
 ```
 
-* `express.static(filepath)` returns a middleware controller that can send the client static assets (HTML, CSS, and JS files) from the provided `filepath`. 
-* The `filepath` should be an absolute filepath.
-* The built-in Node module `path` is often used to create absolute filepaths.
-* `__dirname` returns the parent directory of the current file.
+- `express.static(filepath)` returns a middleware controller that can send the client static assets (HTML, CSS, and JS files) from the provided `filepath`. 
+- The `filepath` should be an absolute filepath.
+- The built-in Node module `path` is often used to create absolute filepaths.
+- `__dirname` returns the parent directory of the current file.
 
 Now, if you run the server and visit the `host:port`, the server will send you the assets in the provided filepath.
