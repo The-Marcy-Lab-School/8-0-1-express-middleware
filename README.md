@@ -17,7 +17,7 @@ Let's make a static web server!
 - **`path` module** - a module for creating absolute paths to static assets
 - **Environment Variable** - a dynamic-named value that can affect the behavior of processes or programs.
 - **`__dirname`** — an environment variable that returns the absolute path of the directory containing the currently executing file.
-- **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents.
+- **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents. For React projects, we need to "build" our project to generate static assets (convert `.jsx` files to `.js` files).
 
 ## Controllers Review
 
@@ -134,7 +134,7 @@ Now, if you run the server and visit the `host:port`, the server will send you t
 ### Summary
 
 - Middleware: Functions that process incoming HTTP requests and can perform server-side actions before passing control to the next middleware.
-- Static Assets: Unchanging files (e.g., HTML, CSS, JS) served by a web server.
+- Static Assets: Unchanging files (e.g., HTML, CSS, JS) served by a web server. For React projects, we need to "build" the project to convert "dynamic" `.jsx` files to "static" `.js` files
 - Controllers: Callback functions that handle requests by parsing them and sending responses.
 - Middleware Functions: Functions similar to controllers but pass requests to the next middleware without sending a response.
 
