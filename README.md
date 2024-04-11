@@ -15,8 +15,8 @@ Let's make a static web server!
 
 - **Middleware** - a function in express that intercepts and processes incoming HTTP requests. It can perform server-side actions such as parsing the request, modifying the response, or executing additional logic before passing control to the next middleware in the chain."
 - **`path` module** - a module for creating absolute paths to static assets
-- **Environment Variable** - a dynamic-named value that can affect the behavior of processes or programs.
-- **`__dirname`** — an environment variable that returns the absolute path of the directory containing the currently executing file.
+- **Environment Variable** - a variable defined outside of the JavaScript execution context.
+- **`__dirname`** — an environment variable that returns the path to the parent directory of the current file.
 - **Static Assets** - unchanging files delivered to the client exactly as they are stored on a server. These include HTML, CSS, JavaScript files, images, videos, fonts, and documents. For React projects, we need to "build" our project to generate static assets (convert `.jsx` files to `.js` files).
 
 ## Controllers Review
@@ -125,7 +125,7 @@ app.use(serveStatic);
 Explanation:
 
 - The `path.join()` method constructs an absolute file path to the static assets folder, ensuring compatibility across different operating systems.
-- `__dirname` provides the absolute path of the current module's directory.
+- `__dirname` provides the absolute path of the current module's parent directory.
 - The `express.static()` middleware function serves static assets (such as HTML, CSS, and JS files) from the specified directory.
 - The middleware function `serveStatic` is used with app.use() to enable serving static assets to clients.
 
