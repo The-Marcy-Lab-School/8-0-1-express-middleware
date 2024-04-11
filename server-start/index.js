@@ -1,6 +1,5 @@
 const gifs = require('./gifs.json');
 const express = require('express');
-
 // 1. Import Path
 
 // 2. Define a path to the dist folder

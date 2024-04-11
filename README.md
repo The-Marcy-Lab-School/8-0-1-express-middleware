@@ -7,9 +7,9 @@ Let's make a static web server!
 **Table of Contents:**
 - [Terms](#terms)
 - [Controllers Review](#controllers-review)
-- [Middleware Controllers](#middleware-controllers)
+- [Middleware](#middleware)
 - [Serving Static Assets](#serving-static-assets)
-- [Summary](#summary)
+  - [Summary](#summary)
 
 ## Terms
 
@@ -112,7 +112,8 @@ With Express, it is really easy to build your own static web server using the `e
 const path = require('path');
 
 // Construct the absolute path to the static assets folder using the `path.join()` method
-const pathToDistFolder = path.join(__dirname, '..', 'path', 'to', 'frontend', 'dist');
+// Use '../' to navigate to a parent directory, similar to when you are using `cd`.
+const pathToDistFolder = path.join(__dirname, '../../path/to/frontend/dist');
 
 // Create the middleware function for serving static assets
 const serveStatic = express.static(pathToDistFolder);
@@ -133,13 +134,10 @@ Now, if you run the server and visit the `host:port`, the server will send you t
 
 ### Summary
 
-- Middleware: Functions that process incoming HTTP requests and can perform server-side actions before passing control to the next middleware.
-- Static Assets: Unchanging files (e.g., HTML, CSS, JS) served by a web server. For React projects, we need to "build" the project to convert "dynamic" `.jsx` files to "static" `.js` files
-- Controllers: Callback functions that handle requests by parsing them and sending responses.
-- Middleware Functions: Functions similar to controllers but pass requests to the next middleware without sending a response.
-
-- Serving Static Assets
-  - Use express.static(filepath) middleware to serve static assets.
-  - Construct an absolute file path to the static assets folder using path.join().
-  - Use the __dirname variable to get the current module's directory.
-  - Register the middleware with app.use() to serve static assets to clients.
+- **Controllers:** Callback functions that handle requests by parsing them and sending responses.
+- **Middleware Functions**: Functions similar to controllers but pass requests to the next middleware without sending a response. They can also be executed for all requests while controllers typically handle a single endpoint.
+- **Static Assets:** Unchanging files (e.g., HTML, CSS, JS) served by a web server. For React projects, we need to "build" the project to convert "dynamic" `.jsx` files to "static" `.js` files
+- **Serving Static Assets**:
+  1. Construct an absolute file path to the static assets folder using `path.join()` and `__dirname`.
+  2. Use `express.static(filepath)` middleware to serve static assets.
+  3. Register the middleware with `app.use()`

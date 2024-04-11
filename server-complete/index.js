@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path'); // used to make absolute path to static folder
 
 // __dirname is the absolute path to the directory containing this file
-// path.join() will construct an absolute path using the path components provided
-const pathToDistFolder = path.join(__dirname, '..', 'vite-project', 'dist');
+// path.join() will construct an absolute path from the provided path components
+const pathToDistFolder = path.join(__dirname, '../vite-project/dist');
 
 const app = express();
 
