@@ -9,7 +9,7 @@ Let's make a static web server!
 - [Controllers Review](#controllers-review)
 - [Middleware](#middleware)
 - [Serving Static Assets](#serving-static-assets)
-  - [Summary](#summary)
+- [Summary](#summary)
 
 ## Terms
 
@@ -132,7 +132,7 @@ Explanation:
 
 Now, if you run the server and visit the `host:port`, the server will send you the assets in the provided filepath.
 
-### Summary
+## Summary
 
 - **Controllers:** Callback functions that handle requests by parsing them and sending responses.
 - **Middleware Functions**: Functions similar to controllers but pass requests to the next middleware without sending a response. They can also be executed for all requests while controllers typically handle a single endpoint.
