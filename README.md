@@ -44,17 +44,17 @@ app.get('/api/hello', serveHello);
 // A GET request to /api/hello?name=ben will send the response "hello ben"
 ```
 
-- A **controller** is a callback function that parses a request and sends a response. It will be invoked by the `app` when the associated path is hit.
-- It receives a `req` object which can be used to get data about the request which can include **query parameters**.
-- It receives a `res` object which can be used to send a response.
+- A **controller** is a callback function that parses a request and sends a response. It will be invoked by the Express `app` when the associated endpoint is sent a request.
+    - The controller receives a `req` object from the Express `app` which holds data about the request, including **query parameters**.
+    - It also receives a `res` object which has methods to send a response.
 
 What about `next`?
 
 ## Middleware
 
-A "middleware" is a function, similar to a controller, that can also parse requests and perform server-side actions.
+A "middleware" is a type of controller that can also parse requests and perform server-side actions.
 
-Unlike controllers, middleware **pass the request to the next function in the chain without sending a response to the client.** They sit in the "middle" of the chain of middleware/controllers.
+Unlike normal controllers, middleware functions **pass the request to the next function in the chain without sending a response to the client.** They sit in the "middle" of the chain of middleware/controllers.
 
 For example, this middleware prints out information about the incoming request in a nice format:
 
@@ -101,11 +101,13 @@ Middleware can be custom-made like this `logRoutes`. However, we can also utiliz
 
 ## Serving Static Assets
 
-One of the most important functions of a server is to provide a client with a frontend. Whenever you visit a website, that's what happens — go to https://google.com and the Google server sends back HTML, CSS, and JavaScript.
+One of the most important roles of a full stack web server is to provide a client with a frontend. Whenever you visit a website, that's what happens — go to https://google.com and the Google server sends back HTML, CSS, and JavaScript to render the user interface.
 
 That's what static web servers like GitHub Pages do — they store **static assets** (HTML, CSS, and JS files) and then provide a URL where users can access them.
 
-With Express, it is really easy to build your own static web server using the `express.static(filepath)` middleware function:
+With Express, it is really quick to build your own static web server using the `express.static(filepath)` middleware function. You only need 4 lines!
+
+Suppose we had a React project in a directory called `frontend` and it has its static assets built into a directory called `dist`:
 
 ```js
 // Import the path module to construct the absolute path to the static assets folder
@@ -127,10 +129,17 @@ Explanation:
 
 - The `path.join()` method constructs an absolute file path to the static assets folder, ensuring compatibility across different operating systems.
 - `__dirname` provides the absolute path of the current module's parent directory.
-- The `express.static()` middleware function serves static assets (such as HTML, CSS, and JS files) from the specified directory.
+- The `express.static()` middleware function makes static assets (such as HTML, CSS, and JS files) from the specified directory publicly available.
 - The middleware function `serveStatic` is used with app.use() to enable serving static assets to clients.
 
-Now, if you run the server and visit the `host:port`, the server will send you the assets in the provided filepath.
+Now, if you run the server and visit the `http://host:port/index.html`, the server will send you the `index.html` file! (You can also just visit `http://host:port/` and it will automatically send you the index file).
+
+Any other files in the provided folder can also be accessed on your server. Assuming the `/dist` directory contains 2 images, `foo.jpg` and `bar.jpg` then you can simply access them at:
+
+```
+http://host:port/foo.jpg
+http://host:port/bar.jpg
+```
 
 ## Summary
 
@@ -139,5 +148,5 @@ Now, if you run the server and visit the `host:port`, the server will send you t
 - **Static Assets:** Unchanging files (e.g., HTML, CSS, JS) served by a web server. For React projects, we need to "build" the project to convert "dynamic" `.jsx` files to "static" `.js` files
 - **Serving Static Assets**:
   1. Construct an absolute file path to the static assets folder using `path.join()` and `__dirname`.
-  2. Use `express.static(filepath)` middleware to serve static assets.
+  2. Use `express.static(filepath)` middleware to make static assets publicly available. 
   3. Register the middleware with `app.use()`
